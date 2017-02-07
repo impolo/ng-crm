@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="detailForm" (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <label>Store Details</label>
+      </section>
+      <clr-stack-view>
+        <clr-stack-block [clrSbExpandable]="true" *ngFor="let root of rootCategories">
+
+          <clr-stack-content>
+            <div class="checkbox">
+              <input type="checkbox" id="{{root.categoryName}}" (click)="onClick(root.categoryId)" >
+              <label for="{{root.categoryName}}">{{root.categoryName}}</label>
+            </div>
+          </clr-stack-content>
+
+          <clr-stack-block *ngFor="let child of root.childrens">
+            <clr-stack-label>
+              <div class="checkbox">
+                <input type="checkbox" id="{{child.categoryName}}" (click)="onClick(child.categoryId)" >
+                <label for="{{child.categoryName}}">{{child.categoryName}}</label>
+              </div>
+            </clr-stack-label>
+          </clr-stack-block>
+
+        </clr-stack-block>
+
+      </clr-stack-view>
+      <div class="form-group">
+        <label for="formFields_8">Please enter your return policy</label>
+        <textarea id="formFields_8" rows="5" formControlName="returnPolicy"></textarea>
+      </div>
+
+      <div class="form-group">
+        <aio-back-button rout="contactInfo"></aio-back-button>
+        <button class="btn btn-primary" [disabled]="detailForm.invalid" type="submit">Next
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

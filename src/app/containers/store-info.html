@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <label>Store Information</label>
+
+        <div class="form-group">
+          <label for="storeName">Company Name:*</label>
+          <input placeholder="Company Name" size="45"
+                 type="text"
+                 id="storeName"
+                 formControlName="storeName"
+          >
+        </div>
+
+        <aio-address [visible]="showAddress" [addressForm]="storeForm" [addressType]="addressType" ></aio-address>
+
+        <div class="form-group">
+          <label >Tax ID Number:*</label>
+          <input size="45"
+                 type="text"
+                 id="taxId"
+                 formControlName="taxId"
+          >
+        </div>
+
+        <div class="form-group">
+          <label >Total Number Of Locations</label>
+          <input size="45"
+                 type="number"
+                 id="locationTotal"
+                 formControlName="locationTotal"
+          >
+        </div>
+
+
+        <button class="btn btn-primary" type="submit"
+                [disabled]="storeForm.invalid">Next</button>
+
+        <aio-spinner [visible]=loading></aio-spinner>
+
+      </section>
+    </form>
+  </div>
+</div>

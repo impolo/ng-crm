@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <label>Terms and Conditions</label>
+        <p>All devices will be shipped to your main business address as listed above unless you enter a different address in the Shipping info area</p>
+        <p><i>Please Note: no devices will be shipped internationally without prior approval of AIO</i></p>
+        <p>Any additional locations must be entered in the settings area of your merchant portal before assigning a subscription or devices to them</p>
+
+
+        <div class="form-group">
+          <div class="checkbox">
+            <input type="checkbox" id="agree" formControlName="agree" >
+            <label for="agree">I have read, understand, and agree to the terms and conditions for using AIO</label>
+          </div>
+        </div>
+
+      </section>
+      <div class="form-group">
+        <aio-back-button rout="shipAdr"></aio-back-button>
+        <button class="btn btn-primary" [disabled]="checkValid()" type="submit">Next
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

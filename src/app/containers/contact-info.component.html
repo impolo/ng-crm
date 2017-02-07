@@ -1,0 +1,107 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <label>Contact Information</label>
+
+        <div class="form-group">
+          <label for="firstName">First Name:*</label>
+          <input placeholder="First Name" size="45"
+                 type="text"
+                 id="firstName"
+                 formControlName="firstName"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name:*</label>
+          <input placeholder="Last Name" size="45"
+                 type="text"
+                 id="lastName"
+                 formControlName="lastName"
+          >
+        </div>
+
+
+        <div class="form-group">
+          <label for="email">Email Address:*</label>
+          <input placeholder="Email Address" size="45"
+                 type="text"
+                 id="email"
+                 formControlName="email"
+          >
+        </div>
+
+
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input placeholder="Title" size="45"
+                 type="text"
+                 id="title"
+                 formControlName="title"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="title">Work Phone:*</label>
+          <div class="select">
+            <select class="form-control compact" id="countryW" required
+                    formControlName="countryW">
+              <option *ngFor="let i of countries" [value]="i.countryId">{{i.countryName}}</option>
+            </select>
+            <input placeholder="Code" size="1" readonly
+                   type="text"
+                   id="codeW"
+                   formControlName="phoneCodeW">
+            <p-inputMask mask="(999) 999-9999" formControlName="phoneNumW" placeholder="(999) 999-9999"></p-inputMask>
+          </div>
+        </div>
+
+        <div class="form-group">
+        </div>
+
+        <div class="form-group">
+          <input placeholder="Ext" size="3"
+                 type="number"
+                 id="extW"
+                 formControlName="phoneNumWExt">
+        </div>
+
+        <div class="form-group">
+          <label for="title">Mobile Phone:</label>
+          <div class="select">
+            <select class="form-control compact" id="countryM" required
+                    formControlName="countryM">
+              <option *ngFor="let i of countries" [value]="i.countryId">{{i.countryName}}</option>
+            </select>
+            <input placeholder="Code" size="1" readonly
+                   type="text"
+                   id="codeM"
+                   formControlName="phoneCodeM">
+            <p-inputMask mask="(999) 999-9999" formControlName="phoneNumM" placeholder="(999) 999-9999"></p-inputMask>
+          </div>
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+          <input placeholder="Ext" size="3"
+                 type="number"
+                 id="extM"
+                 formControlName="phoneNumMExt">
+        </div>
+
+        <div class="form-group">
+          <aio-back-button rout="storeInfo"></aio-back-button>
+
+          <button class="btn btn-primary" type="submit"
+                  [disabled]="contactForm.invalid">Next
+          </button>
+        </div>
+
+
+        <aio-spinner [visible]=loading></aio-spinner>
+
+      </section>
+    </form>
+  </div>
+</div>

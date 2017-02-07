@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="billAdrForm" (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <label>Billing Information</label>
+
+        <div class="form-group">
+          <div class="checkbox">
+            <input type="checkbox" id="new" formControlName="new" (click)="onNewAddress()">
+            <label for="new">Please check and enter below if the billing address is different</label>
+          </div>
+        </div>
+        <aio-address [visible]="showAddress" [addressForm]="billAdrForm" [addressType]="addressType" ></aio-address>
+      </section>
+      <div class="form-group">
+        <aio-back-button rout="purchasing"></aio-back-button>
+        <button class="btn btn-primary" [disabled]="checkValid()" type="submit">Next
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
