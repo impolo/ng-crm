@@ -108,7 +108,7 @@ export class NmcService {
 
     //console.log(JSON.stringify(nmcRequest))
 
-    return this.http.post(this.API_PATH, this.body(nmcRequest), this.headers)
+    return this.http.post("/NmcServerS/nmc-server/post/", this.body(nmcRequest), this.headers)
       .map(res => {
        // console.log(res)
         return this.ok(res.json().RESULT[0]) ?
