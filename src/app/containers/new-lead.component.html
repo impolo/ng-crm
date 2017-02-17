@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="newLeadForm" (ngSubmit)="onSearch()" class="compact">
+      <section class="form-block">
+        <label>Add New Lead</label>
+
+        <div class="form-group">
+          <label for="rootCategories">Company Type</label>
+          <div class="select">
+
+            <select class="form-control compact" id="rootCategories" (change)="changeCompanyType($event.target.value)"
+                    formControlName="rootCategories">
+              <option *ngFor="let r of rootCategories" [value]="r.categoryId">{{r.categoryName}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="categories">Business Category</label>
+          <div class="select">
+
+            <select class="form-control compact" id="categories"
+                    formControlName="categories">
+              <option *ngFor="let c of businessCategories" [value]="c.categoryId">{{c.categoryName}}</option>
+            </select>
+          </div>
+        </div>
+
+        <aio-address [addressForm]="newLeadForm" [visible]="true" [addressType]="addressType"></aio-address>
+
+        <aio-spinner [visible]=loading></aio-spinner>
+
+        <button class="btn btn-warning" type="submit" (click)="onCancel()"
+        >Cancel
+        </button>
+
+        <button class="btn btn-success" type="submit"
+        >Save To Crm
+        </button>
+
+        <button class="btn btn-primary" type="submit"
+        >Send To AIO
+        </button>
+
+      </section>
+    </form>
+  </div>
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-block">
+    <form [formGroup]="searchLeadForm" (ngSubmit)="onSearch()" class="compact">
+      <section class="form-block">
+        <label>Search Lead</label>
+
+        <div class="form-group">
+          <label for="rootCategories">Company Type</label>
+          <div class="select">
+
+            <select class="form-control compact" id="rootCategories" (change)="changeCompanyType($event.target.value)"
+                    formControlName="rootCategories">
+              <option *ngFor="let r of rootCategories" [value]="r.categoryId">{{r.categoryName}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="categories">Business Category</label>
+          <div class="select">
+
+            <select class="form-control compact" id="categories"
+                    formControlName="categories">
+              <option *ngFor="let c of businessCategories" [value]="c.categoryId">{{c.categoryName}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="textSearch">Search text</label>
+          <input type="text"
+                 id="textSearch" formControlName="textSearch">
+
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+
+
+        <aio-spinner [visible]=loading></aio-spinner>
+
+      </section>
+    </form>
+  </div>
+  <div class="card-block">
+    <clr-datagrid>
+      <clr-dg-column>Search results</clr-dg-column>
+      <clr-dg-row *ngFor="let lead of leads">
+        <clr-dg-cell>
+          {{lead.SLSCRMLeadFullName}}<br/>
+          {{lead.SLSCRMLeadEMail}}
+        </clr-dg-cell>
+      </clr-dg-row>
+
+    </clr-datagrid>
+    <form (ngSubmit)="onSubmit()">
+      <section class="form-block">
+        <button class="btn btn-warning" type="submit"
+        >Cancel
+        </button>
+        <button class="btn btn-success" type="submit" (click)="goNewLead()"
+        >New Lead
+        </button>
+      </section>
+    </form>
+  </div>
+
+</div>

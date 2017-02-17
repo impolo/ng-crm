@@ -7,13 +7,14 @@ import {isNullOrUndefined} from "util";
 import {Observable} from "rxjs";
 import {Md5} from "ts-md5/dist/md5";
 import {isEmpty} from "rxjs/operator/isEmpty";
+import {MdSnackBar} from "@angular/material";
 
 @Injectable()
 export class CrmService {
   private leadsUrl: string;
 
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private snackBar: MdSnackBar) {
 
 
     let url = window.localStorage.getItem('webapiurl');
@@ -47,6 +48,13 @@ export class CrmService {
 
     return this.http.get(url)
       .map(resp => resp.json())
+  }
+
+  showCrmError(error: any) {
+    let response = JSON.parse(error['_body'])
+    this.snackBar.open(response[0]['Message'], 'close', {
+      duration: 3000
+    })
   }
 
 }

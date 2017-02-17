@@ -20,6 +20,7 @@ import {
 } from "../models/nmc_fields";
 import {isString} from "util";
 import {environment} from "../../environments/environment";
+import {MdSnackBar} from "@angular/material";
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class NmcService {
 
   private _countries: Observable<Country[]>
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private snackBar: MdSnackBar) {
 
   }
 
@@ -216,6 +217,12 @@ export class NmcService {
       return "Visa Electron";
 
     return "";
+  }
+
+  showGeneralError(error: any) {
+    this.snackBar.open(error, 'Close', {
+      duration: 3000
+    })
   }
 
 

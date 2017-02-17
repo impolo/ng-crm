@@ -5,6 +5,7 @@ import {LoginComponent} from "./containers/login";
 import {UnavailableComponent} from "./containers/unavailable";
 import {AuthGuard} from "./guards/auth.guard";
 import {SearchLeadComponent} from "./containers/search-lead.component";
+import {NewLeadComponent} from "./containers/new-lead.component";
 
 export const routes: Routes = [
   {
@@ -14,6 +15,11 @@ export const routes: Routes = [
   {
     path: 'searchLeads',
     component: SearchLeadComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'newLead',
+    component: NewLeadComponent,
     canActivate: [AuthGuard]
   },
   {

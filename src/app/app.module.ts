@@ -21,6 +21,7 @@ import {AutoCompleteModule} from 'primeng/primeng';
 import {InputMaskModule} from 'primeng/primeng';
 import {CrmService} from "./services/crm.service";
 import { SearchLeadComponent } from './containers/search-lead.component';
+import { NewLeadComponent } from './containers/new-lead.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SearchLeadComponent } from './containers/search-lead.component';
     UnavailableComponent,
     BackButtonComponent,
     AddressComponent,
-    SearchLeadComponent
+    SearchLeadComponent,
+    NewLeadComponent
   ],
   imports: [
     BrowserModule,

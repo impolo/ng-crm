@@ -39,25 +39,28 @@ export class AddressComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
 
+    /*
+
     this.user = JSON.parse(localStorage.getItem('currentUser'))
 
     this.addrIdx = this.user[ADDRESS_STRUCT].findIndex(addr => addr[ADDRESS_TYPE] == this.addressType)
     //console.log('address index' + this.addrIdx)
    // console.log(this.addressType)
-
-    this.addressForm.addControl('addr1', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDR1], Validators.required))
-    this.addressForm.addControl('addr2', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDR2]))
+     */
+    this.addressForm.addControl('addr1', new FormControl('', Validators.required))
+    this.addressForm.addControl('addr2', new FormControl(''))
     this.addressForm.addControl('country', new FormControl('', Validators.required))
     this.addressForm.addControl('state', new FormControl('', Validators.required))
     this.addressForm.addControl('city', new FormControl('', Validators.required))
     this.addressForm.addControl('zipcode', new FormControl('', Validators.required))
-    this.addressForm.addControl('countryId', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][COUNTRY_ID]))
-    this.addressForm.addControl('stateId', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][STATE_ID]))
-    this.addressForm.addControl('cityId', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][CITY_ID]))
-    this.addressForm.addControl('zipcodeId', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ZIPCODE_ID]))
+    this.addressForm.addControl('countryId', new FormControl(''))
+    this.addressForm.addControl('stateId', new FormControl(''))
+    this.addressForm.addControl('cityId', new FormControl(''))
+    this.addressForm.addControl('zipcodeId', new FormControl(''))
     this.addressForm.addControl('phoneCode', new FormControl(''))
     this.addressForm.addControl('phoneNum', new FormControl(''))
-    this.addressForm.addControl('phoneExt', new FormControl(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDRESS_PHONE_EXT]))
+    this.addressForm.addControl('phoneExt', new FormControl(''))
+
 
     this.ds.countries().subscribe(
       data => {
@@ -82,7 +85,8 @@ export class AddressComponent implements OnInit {
       }
     )
 
-    this.addressForm.controls['phoneNum'].setValue(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDRESS_PHONE_NUM])
+    // this.addressForm.controls['phoneNum'].setValue(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDRESS_PHONE_NUM])
+
 
   }
 
@@ -106,7 +110,7 @@ export class AddressComponent implements OnInit {
         this.loading = false
       },
       error => {
-        this.snackBar.open(error)
+        this.ds.showGeneralError(error)
         this.loading = false
       }
     )
@@ -129,7 +133,7 @@ export class AddressComponent implements OnInit {
         this.loading = false
       },
       error => {
-        this.snackBar.open(error)
+        this.ds.showGeneralError(error)
         this.loading = false
       }
     )
@@ -152,7 +156,7 @@ export class AddressComponent implements OnInit {
         this.loading = false
       },
       error => {
-        this.snackBar.open(error)
+        this.ds.showGeneralError(error)
         this.loading = false
       }
     )

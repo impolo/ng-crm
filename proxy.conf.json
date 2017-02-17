@@ -1,0 +1,14 @@
+{
+  "/SLSCRM": {
+    "target": "http://sandbox.multiclicksistemas.net",
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug"
+    },
+  "/NmcServerS": {
+    "target": "http://8.41.42.131:6040",
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
