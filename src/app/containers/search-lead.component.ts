@@ -110,4 +110,8 @@ export class SearchLeadComponent implements OnInit {
   goNewLead() {
     this.router.navigate(["/newLead"])
   }
+
+  onSelectLead(value: any) {
+    this.router.navigate(["/editLead", value])
+  }
 }

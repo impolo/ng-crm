@@ -23,6 +23,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'editLead/:id',
+    component: NewLeadComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     component: NotFoundPageComponent
   }

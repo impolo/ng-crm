@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {NmcService} from "../services/nmc_service";
 import {CrmService} from "../services/crm.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Lead} from "../models/lead";
 import {Category} from "../models/category";
 import {HOME_ADDRESS} from "../models/dics";
@@ -14,7 +14,7 @@ import {HOME_ADDRESS} from "../models/dics";
 export class NewLeadComponent implements OnInit {
 
   loading: boolean
-  newLeadForm: FormGroup;
+  editLeadForm: FormGroup;
   rootCategories: Category[] = []
   categories: Category[] = []
   businessCategories: Category[] = []
@@ -25,13 +25,19 @@ export class NewLeadComponent implements OnInit {
 
   leads: Lead[] = []
 
+  pLeadId : any
+  editedLead : Lead
 
-  constructor(private formBuilder: FormBuilder, private ds: NmcService, private cs: CrmService, private router: Router) {
+
+
+  constructor(private formBuilder: FormBuilder, private ds: NmcService, private cs: CrmService, private router: Router, private aroute: ActivatedRoute) {
     //this.user = JSON.parse(localStorage.getItem('currentUser'))
-    this.newLeadForm = formBuilder.group({
+
+
+    this.editLeadForm = formBuilder.group({
       'rootCategories': [''],
       'categories': [''],
-      'textSearch': ['']
+      'companyName': ['']
     });
 
   }
@@ -39,6 +45,25 @@ export class NewLeadComponent implements OnInit {
   ngOnInit() {
     this.loading = true
     this.customerCategories = []
+
+    this.aroute.params.subscribe(
+      params => {
+        this.pLeadId = params['id']
+
+        if (this.pLeadId) {
+          this.cs.getLeadById(this.pLeadId).subscribe(
+            data => {
+              this.editedLead = data
+              this.editLeadForm.controls['companyName'].setValue(this.editedLead.SLSCRMLeadCompany)
+            },
+            error => {
+              this.cs.showCrmError(error)
+            }
+          )
+        }
+
+      }
+    )
 
     this.ds.categories().subscribe(
       data => {
@@ -78,28 +103,7 @@ export class NewLeadComponent implements OnInit {
     })
   }
 
-  onSearch() {
-    //console.log("searching")
-    this.loading = true
-    this.cs.searchLeads(
-      this.newLeadForm.controls['rootCategories'].value,
-      this.newLeadForm.controls['categories'].value,
-      this.newLeadForm.controls['textSearch'].value
-    ).subscribe(
-      data => {
-        this.loading = false
-        this.leads = []
-        data.forEach(lead => this.leads.push(lead))
-        // console.log(data)
-      },
-      error => {
-        this.loading = false
-        this.cs.showCrmError(error)
-      }
 
-
-    )
-  }
 
   onSubmit() {
     // this.customerCategories.forEach( cat => this.user[CATEGORY_USER].push({"114.93": NmcService.pad(cat)}))

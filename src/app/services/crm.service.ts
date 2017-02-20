@@ -44,8 +44,14 @@ export class CrmService {
     let url = '/SLSCRM_LeadsDataServices_21320_AIOLAX/Search'
 
     url += `?term=${term}&SLSCRMLeadCompanyType=${companyType}&SLSCRMLeadCategoryType=${businessCategory}`
+    return this.http.get(url)
+      .map(resp => resp.json())
+  }
 
+  getLeadById(leadId: any) {
+    let url = '/SLSCRM_LeadsDataServices_21320_AIOLAX/'
 
+    url += `?Compania=1&SLSCRMLeadId=${leadId}`
     return this.http.get(url)
       .map(resp => resp.json())
   }
