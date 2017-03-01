@@ -14,4 +14,7 @@ export class Lead {
   public SLSCRMLeadMobilePhone: string;
   public SLSCRMLeadAddress1: string;
   public SLSCRMLeadAddress2: string;
+  public SLSCRMLeadCityName;
+  public SLSCRMLeadCompanyType;
+  public SLSCRMLeadCategoryType;
 }

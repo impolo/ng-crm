@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-block">
-    <form [formGroup]="editLeadForm" (ngSubmit)="onSearch()" class="compact">
+    <form [formGroup]="editLeadForm" class="compact">
       <section class="form-block">
         <label>Edit Lead</label>
 
@@ -28,11 +28,24 @@
 
         <div class="form-group" [formGroup]="editLeadForm">
           <label for="companyName">Company Name*</label>
-          <input placeholder="Company Name"  type="text"
+          <input placeholder="Company Name" type="text"
                  id="companyName"
                  formControlName="companyName">
         </div>
 
+        <div class="form-group" [formGroup]="editLeadForm">
+          <label for="companyName">Contact Name</label>
+          <input placeholder="Contact Name" type="text"
+                 id="contactName"
+                 formControlName="contactName">
+        </div>
+
+        <div class="form-group" [formGroup]="editLeadForm">
+          <label for="contactEmail">Contact E-mail</label>
+          <input placeholder="Contact E-mail" type="text"
+                 id="contactEmail"
+                 formControlName="contactEmail">
+        </div>
 
         <aio-address [addressForm]="editLeadForm" [visible]="true" [addressType]="addressType"></aio-address>
 
@@ -42,7 +55,7 @@
         >Cancel
         </button>
 
-        <button class="btn btn-success" type="submit"
+        <button class="btn btn-success" (click)="saveToCrm()"
         >Save To Crm
         </button>
 

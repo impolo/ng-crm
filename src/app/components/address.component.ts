@@ -62,28 +62,28 @@ export class AddressComponent implements OnInit {
     this.addressForm.addControl('phoneExt', new FormControl(''))
 
 
-    this.ds.countries().subscribe(
-      data => {
-        data.map(country => {
-          this.countries.push(country)
-          if (country.countryCode == "US") {
-            (<FormControl>this.addressForm.controls['country'])
-              .setValue(country.countryId, {onlySelf: true})
-            //and filling state list
-            this.countries.push(country)
-            this.addressForm.controls['countryId'].setValue(country.countryId)
-            this.addressForm.controls['phoneCode'].setValue("+" + country.countryIndicative)
-
-            this.changeCountry(this.addressForm.controls['countryId'].value)
-          }
-        })
-        this.loading = false
-      },
-      error => {
-        this.snackBar.open(error)
-        this.loading = false
-      }
-    )
+    // this.ds.countries().subscribe(
+    //   data => {
+    //     data.map(country => {
+    //       this.countries.push(country)
+    //       if (country.countryCode == "US") {
+    //         (<FormControl>this.addressForm.controls['country'])
+    //           .setValue(country.countryId, {onlySelf: true})
+    //         //and filling state list
+    //         this.countries.push(country)
+    //         this.addressForm.controls['countryId'].setValue(country.countryId)
+    //         this.addressForm.controls['phoneCode'].setValue("+" + country.countryIndicative)
+    //
+    //         this.changeCountry(this.addressForm.controls['countryId'].value)
+    //       }
+    //     })
+    //     this.loading = false
+    //   },
+    //   error => {
+    //     this.snackBar.open(error)
+    //     this.loading = false
+    //   }
+    // )
 
     // this.addressForm.controls['phoneNum'].setValue(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDRESS_PHONE_NUM])
 

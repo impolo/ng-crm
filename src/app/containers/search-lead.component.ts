@@ -58,6 +58,8 @@ export class SearchLeadComponent implements OnInit {
       }
     )
 
+   // this.doSearch()
+
   }
 
   onClick(categoryId) {
@@ -77,7 +79,7 @@ export class SearchLeadComponent implements OnInit {
     })
   }
 
-  onSearch() {
+  doSearch() {
     //console.log("searching")
     this.loading = true
     this.cs.searchLeads(
@@ -89,15 +91,18 @@ export class SearchLeadComponent implements OnInit {
         this.loading = false
         this.leads = []
         data.forEach(lead => this.leads.push(lead))
-       // console.log(data)
+        // console.log(data)
       },
       error => {
         this.loading = false
         this.cs.showCrmError(error)
       }
+    )
+  }
 
 
-      )
+  onSearch() {
+    this.doSearch()
   }
 
   onSubmit() {

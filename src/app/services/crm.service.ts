@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, RequestOptions, Response} from "@angular/http";
+import {Http, RequestOptions, Response, Headers} from "@angular/http";
 import {CRM_SALES_SEARCH} from "./crm";
 import {error} from "util";
 import {isNull} from "util";
@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {Md5} from "ts-md5/dist/md5";
 import {isEmpty} from "rxjs/operator/isEmpty";
 import {MdSnackBar} from "@angular/material";
+import {Lead} from "../models/lead";
 
 @Injectable()
 export class CrmService {
@@ -18,7 +19,6 @@ export class CrmService {
 
 
     let url = window.localStorage.getItem('webapiurl');
-    console.log(url)
     this.leadsUrl = `${url}/SLSCRM_LeadsDataServices_21320_AIOLAX`;
   }
 
@@ -48,8 +48,16 @@ export class CrmService {
       .map(resp => resp.json())
   }
 
-  getLeadById(leadId: any) {
+  getLeadById(leadId: any): Observable<any> {
     let url = '/SLSCRM_LeadsDataServices_21320_AIOLAX/'
+
+    url += `?Compania=1&SLSCRMLeadId=${leadId}`
+    return this.http.get(url)
+      .map(resp => resp.json())
+  }
+
+  getNotes(leadId: any) {
+    let url = 'SLSCRM_LeadsDataServices_21320_AIOLAX/SLSCRM_NotesDataServices_21320_AIOLAX/Gets/0'
 
     url += `?Compania=1&SLSCRMLeadId=${leadId}`
     return this.http.get(url)
@@ -61,6 +69,26 @@ export class CrmService {
     this.snackBar.open(response[0]['Message'], 'close', {
       duration: 3000
     })
+  }
+
+  createLead(lead: Lead) {
+
+    let headers = new Headers();
+    headers.append("charset", "UTF-8")
+    headers.append("Content-Type", " application/json")
+
+    let url = 'SLSCRM_LeadsDataServices_21320_AIOLAX/Add'
+    return this.http.put(url, lead, headers)
+  }
+
+  updateLead(lead: Lead) {
+
+    let headers = new Headers();
+    headers.append("charset", "UTF-8")
+    headers.append("Content-Type", " application/json")
+
+    let url = 'SLSCRM_LeadsDataServices_21320_AIOLAX/Update/0'
+    return this.http.put(url, lead, headers)
   }
 
 }

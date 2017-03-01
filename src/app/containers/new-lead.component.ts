@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder} from "@angular/forms";
 import {NmcService} from "../services/nmc_service";
 import {CrmService} from "../services/crm.service";
@@ -6,6 +6,8 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {Lead} from "../models/lead";
 import {Category} from "../models/category";
 import {HOME_ADDRESS} from "../models/dics";
+import {error} from "util";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'aio-new-lead',
@@ -25,10 +27,10 @@ export class NewLeadComponent implements OnInit {
 
   leads: Lead[] = []
 
-  pLeadId : any
-  editedLead : Lead
+  pLeadId: any
+  editedLead: Lead
 
-
+  editMode: boolean = false
 
   constructor(private formBuilder: FormBuilder, private ds: NmcService, private cs: CrmService, private router: Router, private aroute: ActivatedRoute) {
     //this.user = JSON.parse(localStorage.getItem('currentUser'))
@@ -37,7 +39,10 @@ export class NewLeadComponent implements OnInit {
     this.editLeadForm = formBuilder.group({
       'rootCategories': [''],
       'categories': [''],
-      'companyName': ['']
+      'companyName': [''],
+      'contactName': [''],
+      'contactEmail': [''],
+      'contactPhone': [''],
     });
 
   }
@@ -46,27 +51,9 @@ export class NewLeadComponent implements OnInit {
     this.loading = true
     this.customerCategories = []
 
-    this.aroute.params.subscribe(
-      params => {
-        this.pLeadId = params['id']
 
-        if (this.pLeadId) {
-          this.cs.getLeadById(this.pLeadId).subscribe(
-            data => {
-              this.editedLead = data
-              this.editLeadForm.controls['companyName'].setValue(this.editedLead.SLSCRMLeadCompany)
-            },
-            error => {
-              this.cs.showCrmError(error)
-            }
-          )
-        }
-
-      }
-    )
-
-    this.ds.categories().subscribe(
-      data => {
+    this.ds.categories()
+      .flatMap(data => {
         data.map(category => {
           if (category.level == "1") {
             this.rootCategories.push(category)
@@ -75,15 +62,36 @@ export class NewLeadComponent implements OnInit {
           }
 
         })
-
-        this.loading = false
-      },
-      error => {
-        this.ds.showGeneralError(error)
-        this.loading = false
-      }
-    )
-
+        return this.aroute.params
+      })
+      .flatMap(data => {
+        this.pLeadId = data['id']
+        this.editMode = true
+        if (this.pLeadId) {
+          return this.cs.getLeadById(this.pLeadId)
+        } else {
+          return Observable.empty
+        }
+      })
+      .subscribe(data => {
+          console.log(data)
+          this.editMode = false
+          this.editedLead = data
+          this.loading = false
+          this.editLeadForm.controls['rootCategories'].setValue(this.editedLead.SLSCRMLeadCompanyType)
+          this.changeCompanyType(this.editedLead.SLSCRMLeadCompanyType)
+          this.editLeadForm.controls['categories'].setValue(this.editedLead.SLSCRMLeadCategoryType)
+          this.editLeadForm.controls['companyName'].setValue(this.editedLead.SLSCRMLeadCompany)
+          this.editLeadForm.controls['contactName'].setValue(this.editedLead.SLSCRMLeadFullName)
+          this.editLeadForm.controls['contactEmail'].setValue(this.editedLead.SLSCRMLeadEMail)
+          this.editLeadForm.controls['addr1'].setValue(this.editedLead.SLSCRMLeadAddress1)
+          this.editLeadForm.controls['addr2'].setValue(this.editedLead.SLSCRMLeadAddress2)
+          this.loading = false
+        },
+        error => {
+          this.loading = false
+          this.cs.showCrmError(error)
+        })
   }
 
   onClick(categoryId) {
@@ -103,7 +111,41 @@ export class NewLeadComponent implements OnInit {
     })
   }
 
+  saveToCrm() {
 
+    this.loading = true
+
+    this.editedLead.SLSCRMLeadCompanyType = this.editLeadForm.controls['rootCategories'].value
+    this.editedLead.SLSCRMLeadCategoryType = this.editLeadForm.controls['categories'].value
+    this.editedLead.SLSCRMLeadCompany = this.editLeadForm.controls['companyName'].value
+    this.editedLead.SLSCRMLeadFullName = this.editLeadForm.controls['contactName'].value
+    this.editedLead.SLSCRMLeadEMail = this.editLeadForm.controls['contactEmail'].value
+    this.editedLead.SLSCRMLeadAddress1 = this.editLeadForm.controls['addr1'].value
+    this.editedLead.SLSCRMLeadAddress2 = this.editLeadForm.controls['addr2'].value
+    //   this.editedLead. = this.editLeadForm.controls['addr2'].value
+    console.log(this.editedLead)
+
+
+
+    if (this.editedLead.SLSCRMLeadId != 0) {
+      this.cs.updateLead(this.editedLead).subscribe(
+        data => {
+          this.loading = false
+          console.log(data)
+        },
+        error => this.cs.showCrmError(error)
+      )
+    }
+    else {
+      this.cs.createLead(this.editedLead).subscribe(
+        data => {
+          this.loading = false
+          console.log(data)
+        },
+        error => this.cs.showCrmError(error)
+      )
+    }
+  }
 
   onSubmit() {
     // this.customerCategories.forEach( cat => this.user[CATEGORY_USER].push({"114.93": NmcService.pad(cat)}))
