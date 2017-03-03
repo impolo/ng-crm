@@ -8,12 +8,17 @@ import { LayoutComponent } from './layout';
 import { ToolbarComponent } from './toolbar';
 import {LoginComponent} from "../containers/login";
 import {SpinnerComponent} from "./spinner";
+import {AddressComponent} from "./address.component";
+
+import {AutoCompleteModule} from 'primeng/primeng';
+import {InputMaskModule} from 'primeng/primeng';
 
 export const COMPONENTS = [
   LayoutComponent,
   ToolbarComponent,
   LoginComponent,
-  SpinnerComponent
+  SpinnerComponent,
+  AddressComponent
 ];
 
 
@@ -23,6 +28,8 @@ export const COMPONENTS = [
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
+    AutoCompleteModule,
+    InputMaskModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'aio-layout',
   template: `
-    <div class="main-container">
+    <div>
       
       <ng-content></ng-content>
 

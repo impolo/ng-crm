@@ -12,16 +12,15 @@ import {RouterModule} from "@angular/router";
 import {NotFoundPageComponent} from "./containers/not-found-page";
 import {UnavailableComponent} from "./containers/unavailable";
 import {AuthGuard} from "./guards/auth.guard";
-import {ClarityModule} from "clarity-angular";
+import { ClarityModule } from 'clarity-angular';
 import {NmcService} from "./services/nmc_service";
 import {BackButtonComponent} from './components/back-button.component';
-import {AddressComponent} from './components/address.component';
 
-import {AutoCompleteModule} from 'primeng/primeng';
-import {InputMaskModule} from 'primeng/primeng';
 import {CrmService} from "./services/crm.service";
 import { SearchLeadComponent } from './containers/search-lead.component';
 import { NewLeadComponent } from './containers/new-lead.component';
+import {AutoCompleteModule} from "primeng/components/autocomplete/autocomplete";
+import {InputMaskModule} from "primeng/components/inputmask/inputmask";
 
 @NgModule({
   declarations: [
@@ -29,7 +28,6 @@ import { NewLeadComponent } from './containers/new-lead.component';
     NotFoundPageComponent,
     UnavailableComponent,
     BackButtonComponent,
-    AddressComponent,
     SearchLeadComponent,
     NewLeadComponent
   ],
@@ -38,13 +36,14 @@ import { NewLeadComponent } from './containers/new-lead.component';
     HttpModule,
     JsonpModule,
     ComponentsModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
+    AutoCompleteModule,
+    InputMaskModule,
     FormsModule,
     ReactiveFormsModule,
-    ClarityModule,
+    ClarityModule.forRoot(),
     RouterModule.forRoot(routes),
-    AutoCompleteModule,
-    InputMaskModule
+
   ],
   providers: [NmcService, AuthGuard, CrmService],
   bootstrap: [AppComponent]

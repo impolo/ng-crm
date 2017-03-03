@@ -4,6 +4,7 @@ import {Component, Output, EventEmitter} from '@angular/core';
 @Component({
   selector: 'aio-toolbar',
   template: `
+ 
     <header class="header header-4">        
         <div class="branding">   
                <img src="../assets/logo.png" />
@@ -16,5 +17,4 @@ import {Component, Output, EventEmitter} from '@angular/core';
 })
 export class ToolbarComponent {
   @Output() openMenu = new EventEmitter();
-  imagePath = "assets/logo.png"
 }

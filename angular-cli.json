@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.30",
+    "version": "1.0.0-beta.24",
     "name": "apitap-mobile-crm"
   },
   "apps": [
@@ -20,12 +20,17 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/mutationobserver-shim/dist/mutationobserver.min.js",
+        "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+        "../node_modules/clarity-icons/clarity-icons.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
+
     }
   ],
   "addons": [],

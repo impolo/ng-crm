@@ -1,0 +1,27 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="loginForm" (submit)="onSubmit()">
+    <label class="title">
+      AIO<span class="trademark">&#8482;</span>
+      CRM&#174;
+    </label>
+    <div class="login-group">
+      <div class="auth-source select">
+        <select id="login-auth-source-1">
+          <option>Sales Men</option>
+        </select>
+      </div>
+      <input placeholder="Email" type="email"  size="45"
+             name="email"
+             type="email"
+             formControlName="email">
+      <input placeholder="Password" type="password"  size="45"
+             type="password"
+             formControlName="password">
+
+      <aio-spinner [visible]=loading></aio-spinner>
+
+      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">LOG IN</button>
+
+    </div>
+  </form>
+</div>

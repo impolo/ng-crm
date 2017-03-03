@@ -15,37 +15,7 @@ import {error} from "util";
 
 @Component({
   selector: 'aio-login',
-  styleUrls: ['../css/cards.css'],
-  template: `
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <section class="form-block">
-      <md-card>
-        <md-card-title>Please login</md-card-title>
- 
-        <md-card-content>
-          <input placeholder="Email" type="email"  size="45"  
-             name="email"
-             type="email"
-             formControlName="email"
-             >
-        </md-card-content>
-        <md-card-content>
-          <input placeholder="Password" type="password"  size="45"              
-             type="password"
-             formControlName="password">
-        </md-card-content>
-        
-        <md-card-content>
-          <button md-raised-button color="primary" [disabled]="!loginForm.valid" >
-            Login
-          </button>
-        </md-card-content>
-         <md-card-content>
-           <aio-spinner [visible]=loading > </aio-spinner>
-        </md-card-content>
-      </md-card>
-      </section>
-   </form>  `,
+  templateUrl: './login.html',
   providers: [NmcService, MdSnackBar]
 
 })
@@ -66,7 +36,7 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    this.cs.getLeads().subscribe(data => console.log(data))
+    //this.cs.getLeads().subscribe(data => console.log(data))
 
   }
 
@@ -97,7 +67,9 @@ export class LoginComponent {
           }
         },
         error => {
-          this.snackBar.open(error)
+          this.snackBar.open(error, 'close', {
+            duration: 3000
+          })
           this.loading = false
         }
       )

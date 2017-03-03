@@ -6,7 +6,7 @@
     "logLevel": "debug"
     },
   "/NmcServerS": {
-    "target": "http://8.41.42.131:6040",
+    "target": "https://209.46.35.217:4143",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug"

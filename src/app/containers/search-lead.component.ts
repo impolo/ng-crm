@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, HostListener, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {Category} from "../models/category";
 import {NmcService} from "../services/nmc_service";
@@ -7,6 +7,7 @@ import {MdSnackBar} from "@angular/material";
 import {CrmService} from "../services/crm.service";
 import {error} from "util";
 import {Lead} from "../models/lead";
+import {DOCUMENT} from "@angular/platform-browser";
 
 @Component({
   selector: 'aio-search-lead',
@@ -20,12 +21,14 @@ export class SearchLeadComponent implements OnInit {
   categories: Category[] = []
   businessCategories: Category[] = []
 
+  pageIndex: number = 1
+
   customerCategories: string[]
 
   leads: Lead[] = []
 
 
-  constructor(private formBuilder: FormBuilder, private ds: NmcService, private cs: CrmService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private ds: NmcService, private cs: CrmService, private router: Router, @Inject(DOCUMENT) private document: Document) {
     //this.user = JSON.parse(localStorage.getItem('currentUser'))
     this.searchLeadForm = formBuilder.group({
       'rootCategories': [''],
@@ -47,8 +50,8 @@ export class SearchLeadComponent implements OnInit {
           } else {
             this.categories.push(category)
           }
-
         })
+        this.rootCategories.push(new Category())
 
         this.loading = false
       },
@@ -77,6 +80,7 @@ export class SearchLeadComponent implements OnInit {
       if (category.parentId === value)
         this.businessCategories.push(category)
     })
+    this.categories.push(new Category())
   }
 
   doSearch() {
@@ -85,11 +89,11 @@ export class SearchLeadComponent implements OnInit {
     this.cs.searchLeads(
       this.searchLeadForm.controls['rootCategories'].value,
       this.searchLeadForm.controls['categories'].value,
-      this.searchLeadForm.controls['textSearch'].value
+      this.searchLeadForm.controls['textSearch'].value,
+      this.pageIndex.toString()
     ).subscribe(
       data => {
         this.loading = false
-        this.leads = []
         data.forEach(lead => this.leads.push(lead))
         // console.log(data)
       },
@@ -102,7 +106,14 @@ export class SearchLeadComponent implements OnInit {
 
 
   onSearch() {
+    this.leads = []
     this.doSearch()
+  }
+
+  onLazySearch(event: any) {
+    console.log(event)
+    this.pageIndex = this.pageIndex + 1
+   // this.doSearch()
   }
 
   onSubmit() {
@@ -119,4 +130,11 @@ export class SearchLeadComponent implements OnInit {
   onSelectLead(value: any) {
     this.router.navigate(["/editLead", value])
   }
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    //we'll do some stuff here when the window is scrolled
+    console.log(this.document.body.scrollTop)
+  }
+
 }

@@ -17,4 +17,8 @@ export class Lead {
   public SLSCRMLeadCityName;
   public SLSCRMLeadCompanyType;
   public SLSCRMLeadCategoryType;
+  public SLSCRMCountryId;
+  public SLSCRMStateId;
+  public SLSCRMCityId;
+
 }

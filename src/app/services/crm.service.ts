@@ -40,10 +40,10 @@ export class CrmService {
       .map(resp => resp.json())
   }
 
-  searchLeads(companyType: string, businessCategory: string, term: string) {
+  searchLeads(companyType: string, businessCategory: string, term: string, pageIndex: string) {
     let url = '/SLSCRM_LeadsDataServices_21320_AIOLAX/Search'
 
-    url += `?term=${term}&SLSCRMLeadCompanyType=${companyType}&SLSCRMLeadCategoryType=${businessCategory}`
+    url += `?term=${term}&SLSCRMLeadCompanyType=${companyType}&SLSCRMLeadCategoryType=${businessCategory}&pageIndex=${pageIndex}`
     return this.http.get(url)
       .map(resp => resp.json())
   }

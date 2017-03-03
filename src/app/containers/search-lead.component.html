@@ -1,60 +1,60 @@
-<div class="card">
-  <div class="card-block">
-    <form [formGroup]="searchLeadForm" (ngSubmit)="onSearch()" class="compact">
-      <section class="form-block">
-        <label>Search Lead</label>
+<form [formGroup]="searchLeadForm" (ngSubmit)="onSearch()" class="compact">
+  <section class="form-block">
+    <label>Search Lead</label>
 
-        <div class="form-group">
-          <label for="rootCategories">Company Type</label>
-          <div class="select">
+    <div class="form-group">
+      <label for="rootCategories">Company Type</label>
+      <div class="select">
 
-            <select class="form-control compact" id="rootCategories" (change)="changeCompanyType($event.target.value)"
-                    formControlName="rootCategories">
-              <option *ngFor="let r of rootCategories" [value]="r.categoryId">{{r.categoryName}}</option>
-            </select>
-          </div>
-        </div>
+        <select class="form-control compact" id="rootCategories" (change)="changeCompanyType($event.target.value)"
+                formControlName="rootCategories">
+          <option *ngFor="let r of rootCategories" [value]="r.categoryId">{{r.categoryName}}</option>
+        </select>
 
-        <div class="form-group">
-          <label for="categories">Business Category</label>
-          <div class="select">
-
-            <select class="form-control compact" id="categories"
-                    formControlName="categories">
-              <option *ngFor="let c of businessCategories" [value]="c.categoryId">{{c.categoryName}}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="textSearch">Search text</label>
-          <input type="text"
-                 id="textSearch" formControlName="textSearch">
-
-        </div>
-        <button class="btn btn-primary" type="submit">Search</button>
-
-        <button class="btn btn-success" type="submit" (click)="goNewLead()">New Lead
-        </button>
-
-        <aio-spinner [visible]=loading></aio-spinner>
-
-      </section>
-    </form>
-  </div>
-</div>
-<div class="row" *ngFor="let lead of leads" (click)="onClick(lead.SLSCRMLeadId)">
-  <a class="card clickable" >
-    <div class="card-block">
-      <h3 class="card-title">{{lead.SLSCRMLeadCompany}}</h3>
-      <p class="card-text">
-        {{lead.SLSCRMLeadAddress1}},{{lead.SLSCRMLeadAddress2}},{{lead.SLSCRMLeadCityName}}<br/>
-        {{lead.SLSCRMLeadFullName}}<br/>
-        {{lead.SLSCRMLeadWorkPhone}}<br/>
-        {{lead.SLSCRMLeadEMail}}
-      </p>
+      </div>
     </div>
-  </a>
-</div>
+
+    <div class="form-group">
+      <label for="categories">Business Category</label>
+      <div class="select">
+
+        <select class="form-control compact" id="categories"
+                formControlName="categories">
+          <option *ngFor="let c of businessCategories" [value]="c.categoryId">{{c.categoryName}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="textSearch">Search text</label>
+      <input type="text"
+             id="textSearch" formControlName="textSearch">
+
+    </div>
+    <button class="btn btn-primary" type="submit">Search</button>
+
+    <button class="btn btn-success" type="submit" (click)="goNewLead()">New Lead
+    </button>
+
+    <aio-spinner [visible]=loading></aio-spinner>
+
+  </section>
+</form>
+
+
+<a class="card clickable" *ngFor="let lead of leads">
+  <div class="card-block" (click)="onSelectLead(lead.SLSCRMLeadId)">
+    <h3 class="card-title">{{lead.SLSCRMLeadCompany}}</h3>
+    <p class="card-text">
+      {{lead.SLSCRMLeadAddress1}},{{lead.SLSCRMLeadAddress2}},{{lead.SLSCRMLeadCityName}}<br/>
+      {{lead.SLSCRMLeadFullName}}<br/>
+      {{lead.SLSCRMLeadWorkPhone}}<br/>
+      {{lead.SLSCRMLeadEMail}}
+    </p>
+  </div>
+</a>
+
+
+
 
 
