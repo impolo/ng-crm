@@ -1,0 +1,16 @@
+<button class="btn btn-primary" type="submit" (click)="back()">Back</button>
+
+<button class="btn btn-success" type="submit" (click)="newNote()">New Note
+</button>
+<a class="card clickable" *ngFor="let note of notes">
+  <div class="card-block" >
+    <h3 class="card-title">{{note.SLSCRMNoteUser}} {{note.SLSCRMNoteDateTime}}</h3>
+    <p class="card-text">
+      <clr-icon shape="info-circle" class="{{getNoteClass(note)}}" size="36" ></clr-icon>
+      {{note.SLSCRMNoteComments}}
+    </p>
+  </div>
+  <div class="card-footer">
+
+  </div>
+</a>

@@ -32,7 +32,7 @@
   <div class="form-group" [formGroup]="addressForm">
     <label for="state">State/Province:*</label>
     <p-autoComplete id="state" formControlName="state" [suggestions]="stateNames" (completeMethod)="searchState($event)"
-                    (onSelect)="changeState($event)"></p-autoComplete>
+                    (onSelect)="changeStateEvent($event)"></p-autoComplete>
   </div>
 
   <div class="form-group" [formGroup]="addressForm">

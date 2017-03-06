@@ -1,6 +1,6 @@
 export class Category {
-  categoryId: string
-  categoryName: string
+  categoryId: string = ""
+  categoryName: string = ""
   level: string
   parentId: string
   owner: string

@@ -21,6 +21,8 @@ import { SearchLeadComponent } from './containers/search-lead.component';
 import { NewLeadComponent } from './containers/new-lead.component';
 import {AutoCompleteModule} from "primeng/components/autocomplete/autocomplete";
 import {InputMaskModule} from "primeng/components/inputmask/inputmask";
+import { NotesComponent } from './containers/notes.component';
+import {NewNoteComponent} from "./containers/new-note.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import {InputMaskModule} from "primeng/components/inputmask/inputmask";
     UnavailableComponent,
     BackButtonComponent,
     SearchLeadComponent,
-    NewLeadComponent
+    NewLeadComponent,
+    NotesComponent,
+    NewNoteComponent
   ],
   imports: [
     BrowserModule,

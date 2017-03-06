@@ -61,7 +61,7 @@ export class SearchLeadComponent implements OnInit {
       }
     )
 
-   // this.doSearch()
+    // this.doSearch()
 
   }
 
@@ -124,11 +124,19 @@ export class SearchLeadComponent implements OnInit {
   }
 
   goNewLead() {
-    this.router.navigate(["/newLead"])
+    this.router.navigate(["/editLead", "New"])
   }
 
   onSelectLead(value: any) {
-    this.router.navigate(["/editLead", value])
+    this.router.navigate(["/editLead", value, "View"])
+  }
+
+  onEditLead(value: any) {
+    this.router.navigate(["/editLead", value, "Edit"])
+  }
+
+  onViewNotes(value: any) {
+    this.router.navigate(["/notes", value])
   }
 
   @HostListener("window:scroll", [])

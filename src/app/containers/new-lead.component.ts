@@ -29,6 +29,7 @@ export class NewLeadComponent implements OnInit {
 
   pLeadId: any
   editedLead: Lead
+  mode: string
 
   editMode: boolean = false
 
@@ -64,6 +65,7 @@ export class NewLeadComponent implements OnInit {
         return this.aroute.params
       })
       .flatMap(data => {
+        this.mode = (data['mode'])
         this.pLeadId = data['id']
         if (this.pLeadId) {
           this.editMode = true
@@ -84,14 +86,14 @@ export class NewLeadComponent implements OnInit {
           this.editLeadForm.controls['contactEmail'].setValue(this.editedLead.SLSCRMLeadEMail)
           this.editLeadForm.controls['addr1'].setValue(this.editedLead.SLSCRMLeadAddress1)
           this.editLeadForm.controls['addr2'].setValue(this.editedLead.SLSCRMLeadAddress2)
-          console.log(this.editedLead.SLSCRMStateId)
           this.editLeadForm.controls['stateId'].setValue(this.editedLead.SLSCRMStateId)
           this.editLeadForm.controls['cityId'].setValue(this.editedLead.SLSCRMCityId)
+          this.editLeadForm.controls['phoneNum'].setValue(this.editedLead.SLSCRMLeadMobilePhone)
         },
         error => {
           console.log(error)
           this.loading = false
-         // this.cs.showCrmError(error)
+          // this.cs.showCrmError(error)
         })
   }
 
@@ -127,12 +129,12 @@ export class NewLeadComponent implements OnInit {
     this.editedLead.SLSCRMCountryId = this.editLeadForm.controls['countryId'].value
     this.editedLead.SLSCRMStateId = this.editLeadForm.controls['stateId'].value
     this.editedLead.SLSCRMCityId = this.editLeadForm.controls['cityId'].value
+    this.editedLead.SLSCRMLeadMobilePhone = this.editLeadForm.controls['phoneNum'].value
     //   this.editedLead. = this.editLeadForm.controls['addr2'].value
     console.log(this.editedLead)
 
 
-
-    if (this.editedLead.SLSCRMLeadId &&   this.editedLead.SLSCRMLeadId != 0) {
+    if (this.editedLead.SLSCRMLeadId && this.editedLead.SLSCRMLeadId != 0) {
       this.cs.updateLead(this.editedLead).subscribe(
         data => {
           this.loading = false
@@ -168,4 +170,14 @@ export class NewLeadComponent implements OnInit {
   onCancel() {
     this.router.navigate(["/searchLeads"])
   }
+
+  getEditable(): boolean {
+    if (this.mode != 'View') return true
+  }
+
+  onViewNotes(value: any) {
+    console.log(`view note ${value}`)
+    this.router.navigate(["/notes", value])
+  }
+
 }

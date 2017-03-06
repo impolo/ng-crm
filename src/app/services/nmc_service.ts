@@ -50,7 +50,6 @@ export class NmcService {
   }
 
   countries(): Observable<Country[]> {
-
     return this.call<Country>([this.operations.countries()], Extractors.country)
   }
 

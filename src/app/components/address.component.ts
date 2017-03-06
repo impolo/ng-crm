@@ -32,6 +32,7 @@ export class AddressComponent implements OnInit {
   @Input() addressForm: FormGroup
   @Input() addressType: string
 
+
   addrIdx: number
 
 
@@ -39,11 +40,11 @@ export class AddressComponent implements OnInit {
 
     /*
 
-    this.user = JSON.parse(localStorage.getItem('currentUser'))
+     this.user = JSON.parse(localStorage.getItem('currentUser'))
 
-    this.addrIdx = this.user[ADDRESS_STRUCT].findIndex(addr => addr[ADDRESS_TYPE] == this.addressType)
-    //console.log('address index' + this.addrIdx)
-   // console.log(this.addressType)
+     this.addrIdx = this.user[ADDRESS_STRUCT].findIndex(addr => addr[ADDRESS_TYPE] == this.addressType)
+     //console.log('address index' + this.addrIdx)
+     // console.log(this.addressType)
      */
     this.addressForm.addControl('addr1', new FormControl('', Validators.required))
     this.addressForm.addControl('addr2', new FormControl(''))
@@ -60,30 +61,42 @@ export class AddressComponent implements OnInit {
     this.addressForm.addControl('phoneExt', new FormControl(''))
 
 
-    this.ds.countries().subscribe(
-      data => {
-        data.map(country => {
-          this.countries.push(country)
-          if (country.countryCode == "US") {
-            (<FormControl>this.addressForm.controls['country'])
-              .setValue(country.countryId, {onlySelf: true})
-            //and filling state list
-            this.countries.push(country)
-            this.addressForm.controls['countryId'].setValue(country.countryId)
-            this.addressForm.controls['phoneCode'].setValue("+" + country.countryIndicative)
+    let usCountry: Country = JSON.parse(window.localStorage.getItem("countryUs"))
+    this.countries.push(usCountry)
 
-            this.changeCountry(this.addressForm.controls['countryId'].value)
-          }
-        })
-        this.loading = false
-      },
-      error => {
-        this.snackBar.open(error)
-        this.loading = false
-      }
-    )
+    this.addressForm.controls['country'].setValue(usCountry.countryId, {onlySelf: true})
+    this.addressForm.controls['phoneCode'].setValue("+" + usCountry.countryIndicative)
+    this.addressForm.controls['countryId'].setValue(usCountry.countryId)
+    this.changeCountry(usCountry.countryId)
 
-    // this.addressForm.controls['phoneNum'].setValue(this.addrIdx == -1 ? '' : this.user[ADDRESS_STRUCT][this.addrIdx][ADDRESS_PHONE_NUM])
+    this.addressForm.controls["stateId"]
+      .valueChanges
+      .subscribe(value => {
+        if (this.states) {
+          this.states.forEach(state => {
+            if (state.stateId === this.addressForm.controls['stateId'].value) {
+              //console.log(state)
+              this.addressForm.controls['state'].setValue(state.stateName)
+              this.loadCities()
+            }
+          })
+        }
+      })
+
+    this.addressForm.controls["cityId"]
+      .valueChanges
+      .subscribe(value => {
+        if (this.cities) {
+          this.cities.forEach(city => {
+            if (city.cityId === this.addressForm.controls['cityId'].value) {
+              // console.log()
+              this.addressForm.controls['city'].setValue(city.cityName)
+             // this.changeCity(city)
+            }
+          })
+        }
+      })
+
 
 
   }
@@ -99,9 +112,9 @@ export class AddressComponent implements OnInit {
       data => {
         data.map(state => {
           this.states.push(state)
-          if (this.addressForm.controls['stateId'].value == NmcService.pad(state.stateId)) {
+          if (this.addressForm.controls['stateId'].value == state.stateId) {
             this.addressForm.controls['state'].setValue(state.stateName)
-            this.changeState(state.stateName)
+            this.loadCities()
           }
         })
         //   data.map(state => this.stateNames.push(state.stateName))
@@ -114,18 +127,16 @@ export class AddressComponent implements OnInit {
     )
   }
 
-  changeState(event) {
-
+  loadCities() {
     this.loading = true;
     this.cities = []
-    this.addressForm.controls['stateId'].setValue(this.states.filter(state => state.stateName == event)[0].stateId)
     this.ds.cities(this.addressForm.controls['stateId'].value).subscribe(
       data => {
         data.map(city => {
           this.cities.push(city)
-          if (this.addressForm.controls['cityId'].value == NmcService.pad(city.cityId)) {
+          if (this.addressForm.controls['cityId'].value == city.cityId) {
             this.addressForm.controls['city'].setValue(city.cityName)
-            this.changeCity(city.cityName)
+            //this.changeCity(city.cityName)
           }
         })
         this.loading = false
@@ -135,6 +146,11 @@ export class AddressComponent implements OnInit {
         this.loading = false
       }
     )
+  }
+
+  changeStateEvent(event) {
+    //console.log(this.states.filter(state => state.stateName == event))
+    this.addressForm.controls['stateId'].setValue(this.states.filter(state => state.stateName == event)[0].stateId)
 
   }
 
@@ -142,22 +158,22 @@ export class AddressComponent implements OnInit {
     this.loading = true;
     this.zipcodes = []
     this.addressForm.controls['cityId'].setValue(this.cities.filter(city => city.cityName == event)[0].cityId)
-    this.ds.zipcodes(this.addressForm.controls['cityId'].value).subscribe(
-      data => {
-        data.map(zipcode => {
-          this.zipcodes.push(zipcode)
-          if (this.addressForm.controls['zipcodeId'].value == NmcService.pad(zipcode.zipcodeId)) {
-            this.addressForm.controls['zipcode'].setValue(zipcode.zipcodeName)
-            this.changeZipcode(zipcode.zipcodeName)
-          }
-        })
-        this.loading = false
-      },
-      error => {
-        this.ds.showGeneralError(error)
-        this.loading = false
-      }
-    )
+    // this.ds.zipcodes(this.addressForm.controls['cityId'].value).subscribe(
+    //   data => {
+    //     data.map(zipcode => {
+    //       this.zipcodes.push(zipcode)
+    //       if (this.addressForm.controls['zipcodeId'].value == NmcService.pad(zipcode.zipcodeId)) {
+    //         this.addressForm.controls['zipcode'].setValue(zipcode.zipcodeName)
+    //         this.changeZipcode(zipcode.zipcodeName)
+    //       }
+    //     })
+    //     this.loading = false
+    //   },
+    //   error => {
+    //     this.ds.showGeneralError(error)
+    //     this.loading = false
+    //   }
+    // )
   }
 
   changeZipcode(event) {

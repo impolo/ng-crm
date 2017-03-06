@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-block">
+
+    <form [formGroup]="newNoteForm" class="compact">
+      <div align="right">
+        <button class="btn btn-primary" (click)="back()">
+          <clr-icon shape="close"></clr-icon>
+          Cancel
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label for="comments">Note text</label>
+        <textarea id="comments" rows="5" formControlName="comments"></textarea>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="priority" formControlName="priority">
+        <label for="priority">Priority</label>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success btn-block" (click)="saveNote()"   >Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

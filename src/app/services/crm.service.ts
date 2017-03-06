@@ -9,6 +9,7 @@ import {Md5} from "ts-md5/dist/md5";
 import {isEmpty} from "rxjs/operator/isEmpty";
 import {MdSnackBar} from "@angular/material";
 import {Lead} from "../models/lead";
+import {Note} from "../models/note";
 
 @Injectable()
 export class CrmService {
@@ -43,6 +44,11 @@ export class CrmService {
   searchLeads(companyType: string, businessCategory: string, term: string, pageIndex: string) {
     let url = '/SLSCRM_LeadsDataServices_21320_AIOLAX/Search'
 
+    if (companyType == 'undefined') {
+      companyType = ""
+      businessCategory = ""
+    }
+
     url += `?term=${term}&SLSCRMLeadCompanyType=${companyType}&SLSCRMLeadCategoryType=${businessCategory}&pageIndex=${pageIndex}`
     return this.http.get(url)
       .map(resp => resp.json())
@@ -61,6 +67,16 @@ export class CrmService {
 
     url += `?Compania=1&SLSCRMLeadId=${leadId}`
     return this.http.get(url)
+      .map(resp => resp.json())
+  }
+
+  addNote(note: Note) {
+    let url = 'SLSCRM_LeadsDataServices_21320_AIOLAX/SLSCRM_NotesDataServices_21320_AIOLAX/Add/0'
+    let headers = new Headers();
+    headers.append("charset", "UTF-8")
+    headers.append("Content-Type", " application/json")
+    console.log(note)
+    return this.http.put(url, note, headers)
       .map(resp => resp.json())
   }
 

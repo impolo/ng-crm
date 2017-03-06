@@ -6,6 +6,8 @@ import {UnavailableComponent} from "./containers/unavailable";
 import {AuthGuard} from "./guards/auth.guard";
 import {SearchLeadComponent} from "./containers/search-lead.component";
 import {NewLeadComponent} from "./containers/new-lead.component";
+import {NotesComponent} from "./containers/notes.component";
+import {NewNoteComponent} from "./containers/new-note.component";
 
 export const routes: Routes = [
   {
@@ -18,19 +20,28 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'newLead',
+    path: 'editLead/:mode',
     component: NewLeadComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'editLead/:id',
+    path: 'editLead/:id/:mode',
     component: NewLeadComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'notes/:leadId',
+    component: NotesComponent
+  },
+  {
+    path: 'notes/:leadId/new',
+    component: NewNoteComponent
   },
   {
     path: '**',
     component: NotFoundPageComponent
   }
+
 
 
 ];

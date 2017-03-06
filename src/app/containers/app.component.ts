@@ -6,15 +6,24 @@ import {NmcService} from "../services/nmc_service"
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  constructor(private ds: NmcService) {
   }
 
   ngOnInit(): void {
-    /*
-     this.ds.getParams()
-     .subscribe(
-     (data) => console.log(data))
-     */
+
+    this.ds.countries().subscribe(
+      data => {
+        data.map(country => {
+          if (country.countryCode == "US") {
+            window.localStorage.setItem("countryUs", JSON.stringify(country))
+          }
+        })
+      },
+      error => {
+        this.ds.showGeneralError(error)
+      }
+    )
+
   }
 
 
